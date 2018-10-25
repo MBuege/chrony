@@ -39,4 +39,16 @@ else # else use first 3 clients
   end
 end
 
+# search for the chrony master(s), if found populate the template accordingly
+# we use all other masters here automatically as peers to allow for local
+# network time synchronisation between them
+masters = search(:node, 'recipes:chrony\:\:master') || []
+unless masters.empty?
+  peers.each do |peer|
+    node.default['chrony']['peers'][peer['ipaddress']] = peer['chrony']['peers_options']
+  end
+else
+  Chef::Log.info('No chrony master(s) found, so not defining any peers in chrony.conf')
+end
+
 include_recipe 'chrony::install'

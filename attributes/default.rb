@@ -27,6 +27,11 @@ default['chrony']['servers'] = {
 
 default['chrony']['server_options'] = 'offline minpoll 8'
 
+# hash of peers for master in the chrony.conf from Ubuntu
+default['chrony']['peers'] = {
+}
+default['chrony']['peers_options'] = ''
+
 # set in the client & master recipes
 default['chrony']['allow'] = ['allow']
 
