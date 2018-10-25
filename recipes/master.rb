@@ -17,13 +17,6 @@
 # limitations under the License.
 #
 
-package 'chrony'
-
-service 'chrony' do
-  supports restart: true, status: true, reload: true
-  action [ :enable]
-end
-
 # set the allowed hosts to the subnet
 # ip = node.ipaddress.split('.')
 # set the allowed hosts to the class B
@@ -46,10 +39,4 @@ else # else use first 3 clients
   end
 end
 
-template '/etc/chrony/chrony.conf' do
-  owner 'root'
-  group 'root'
-  mode '0644'
-  source 'chrony.conf.erb'
-  notifies :restart, 'service[chrony]'
-end
+include_recipe 'chrony::install'

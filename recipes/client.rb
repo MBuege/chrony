@@ -17,13 +17,6 @@
 # limitations under the License.
 #
 
-package 'chrony'
-
-service 'chrony' do
-  supports restart: true, status: true, reload: true
-  action [ :enable ]
-end
-
 # clients aren't servers by default
 node.default['chrony']['allow'] = []
 
@@ -42,10 +35,4 @@ else
   Chef::Log.info('No chrony master(s) found, using node[:chrony][:servers] attribute.')
 end
 
-template '/etc/chrony/chrony.conf' do
-  owner 'root'
-  group 'root'
-  mode '0644'
-  source 'chrony.conf.erb'
-  notifies :restart, 'service[chrony]'
-end
+include_recipe 'chrony::install'
