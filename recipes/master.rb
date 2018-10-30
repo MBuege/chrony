@@ -42,8 +42,8 @@ end
 # search for the chrony master(s), if found populate the template accordingly
 # we use all other masters here automatically as peers to allow for local
 # network time synchronisation between them
-masters = search(:node, 'recipes:chrony\:\:master') || []
-unless masters.empty?
+peers = search(:node, 'recipes:chrony\:\:master') || []
+unless peers.empty?
   peers.each do |peer|
     node.default['chrony']['peers'][peer['ipaddress']] = peer['chrony']['peers_options']
   end
